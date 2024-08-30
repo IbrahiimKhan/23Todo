@@ -18,7 +18,7 @@ Before you begin, ensure you have met the following requirements:
 
 First, you will need to start **Metro**, the JavaScript _bundler_ that ships _with_ React Native.
 
-To install the dependencies & start Metro, run the following command from the _root_ of your Sara project dir:
+To install the dependencies & start Metro, run the following command from the _root_ of your project dir:
 
 ```bash
 yarn
@@ -30,7 +30,7 @@ yarn start
 
 #### Step 2: Start your Application
 
-Let Metro Bundler run in its _own_ terminal. Open a _new_ terminal from the _root_ of your Sara project dir. Run the following command to start your _Android_ or _iOS_ app:
+Let Metro Bundler run in its _own_ terminal. Open a _new_ terminal from the _root_ of your project dir. Run the following command to start your _Android_ or _iOS_ app:
 
 #### For Android
 
