@@ -1,7 +1,7 @@
 import React, {useState} from 'react';
 import {Button, StyleSheet, TextInput, View} from 'react-native';
 import {useDispatch, useSelector} from 'react-redux';
-import {addTask, editTask} from '../store/slice/noteSlice';
+import {addNote, editNote} from '../store/slice/noteSlice';
 import {AppDispatch, RootState} from '../store/store';
 import {useNavigation} from '@react-navigation/native';
 
@@ -25,10 +25,10 @@ export const AddNoteScreen = () => {
 
   const handleAddOrEditTask = () => {
     if (editingTask) {
-      dispatch(editTask({id: editingTask, title, content}));
+      dispatch(editNote({id: editingTask, title, content}));
       setEditingTask(null);
     } else {
-      dispatch(addTask({title, content}));
+      dispatch(addNote({title, content}));
       navigation.navigate('Root');
     }
     setTitle('');

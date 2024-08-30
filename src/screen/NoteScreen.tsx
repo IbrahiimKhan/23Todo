@@ -1,6 +1,6 @@
 import {useNavigation} from '@react-navigation/native';
 import React from 'react';
-import {Button, SafeAreaView, StyleSheet, Text} from 'react-native';
+import {Button, SafeAreaView, StyleSheet} from 'react-native';
 import TodoList from '../component/organism/NoteList';
 
 const NoteScreen = () => {
@@ -8,7 +8,6 @@ const NoteScreen = () => {
 
   return (
     <SafeAreaView style={styles.SafeAreaView}>
-      <Text>NoteScreen</Text>
       <Button title="Add Note" onPress={() => navigation.navigate('AddNote')} />
       <TodoList />
     </SafeAreaView>

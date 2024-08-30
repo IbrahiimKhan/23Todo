@@ -1,6 +1,7 @@
+/* eslint-disable react/no-unstable-nested-components */
 // components/NoteList.tsx
 import React, {useEffect, useState} from 'react';
-import {FlatList, View} from 'react-native';
+import {FlatList, Text, View} from 'react-native';
 import {useDispatch, useSelector} from 'react-redux';
 import {
   addNote,
@@ -14,7 +15,7 @@ import TodoItem from '../molecules/NoteItem';
 export default function NoteList() {
   const [title, setTitle] = useState('');
   const [content, setContent] = useState('');
-  const [editingTask, setEditingTask] = useState<number | null>(null);
+  const [editingNote, setEditingNote] = useState<number | null>(null);
   const dispatch = useDispatch<AppDispatch>();
   const tasks = useSelector((state: RootState) => state.todos.tasks);
 
@@ -22,10 +23,11 @@ export default function NoteList() {
     dispatch(loadNotes());
   }, [dispatch]);
 
-  const handleAddOrEditTask = () => {
-    if (editingTask) {
-      dispatch(editNote({id: editingTask, title, content}));
-      setEditingTask(null);
+  const handleAddOrEditNote = () => {
+    if (editingNote) {
+      console.log('execute');
+      dispatch(editNote({id: editingNote, title, content}));
+      setEditingNote(null);
     } else {
       dispatch(addNote({title, content}));
     }
@@ -33,26 +35,27 @@ export default function NoteList() {
     setContent('');
   };
 
-  const handleEditTask = (task: {
+  const handleEditNote = (task: {
     id: number;
     title: string;
     content: string;
   }) => {
     setTitle(task.title);
     setContent(task.content);
-    setEditingTask(task.id);
+    setEditingNote(task.id);
   };
 
   return (
     <View>
       <FlatList
+        ListEmptyComponent={() => <Text>No Notes Found! Please Add one</Text>}
         data={tasks}
         renderItem={({item}) => (
           <TodoItem
             key={item.id}
             task={item}
-            deleteTask={() => dispatch(deleteNote(item.id))}
-            editTask={() => handleEditTask(item)}
+            deleteNote={() => dispatch(deleteNote(item.id))}
+            editNote={() => handleEditNote(item)}
           />
         )}
       />
