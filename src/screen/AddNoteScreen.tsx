@@ -1,32 +1,22 @@
+import {useNavigation} from '@react-navigation/native';
 import React, {useState} from 'react';
 import {Button, StyleSheet, TextInput, View} from 'react-native';
-import {useDispatch, useSelector} from 'react-redux';
+import {useDispatch} from 'react-redux';
 import {addNote, editNote} from '../store/slice/noteSlice';
-import {AppDispatch, RootState} from '../store/store';
-import {useNavigation} from '@react-navigation/native';
+import {AppDispatch} from '../store/store';
 
-export const AddNoteScreen = () => {
+export const AddNoteScreen = ({route}: any) => {
+  const {task} = route.params;
+  console.log('what is task', task);
   const navigation = useNavigation();
-  const [title, setTitle] = useState('');
-  const [content, setContent] = useState('');
-  const [editingTask, setEditingTask] = useState<number | null>(null);
+  const [title, setTitle] = useState(task ? task?.title : '');
+  const [content, setContent] = useState(task ? task.content : '');
   const dispatch = useDispatch<AppDispatch>();
-  const tasks = useSelector((state: RootState) => state.todos.tasks);
-  console.log(tasks);
-  // const handleEditTask = (task: {
-  //   id: number;
-  //   title: string;
-  //   content: string;
-  // }) => {
-  //   setTitle(task.title);
-  //   setContent(task.content);
-  //   setEditingTask(task.id);
-  // };
 
   const handleAddOrEditTask = () => {
-    if (editingTask) {
-      dispatch(editNote({id: editingTask, title, content}));
-      setEditingTask(null);
+    if (task) {
+      dispatch(editNote({id: task.id, title, content}));
+      navigation.navigate('Root');
     } else {
       dispatch(addNote({title, content}));
       navigation.navigate('Root');
@@ -47,10 +37,7 @@ export const AddNoteScreen = () => {
         onChangeText={setContent}
         placeholder="Task Content"
       />
-      <Button
-        title={editingTask ? 'Edit' : 'Add'}
-        onPress={handleAddOrEditTask}
-      />
+      <Button title={task ? 'Edit' : 'Add'} onPress={handleAddOrEditTask} />
     </View>
   );
 };
