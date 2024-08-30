@@ -1,6 +1,13 @@
 import {useNavigation} from '@react-navigation/native';
 import React, {useState} from 'react';
-import {Button, StyleSheet, Text, TextInput, View} from 'react-native';
+import {
+  Button,
+  StyleSheet,
+  Text,
+  TextInput,
+  ToastAndroid,
+  View,
+} from 'react-native';
 import {useDispatch} from 'react-redux';
 import {addNote, editNote} from '../store/slice/noteSlice';
 import {AppDispatch} from '../store/store';
@@ -11,12 +18,21 @@ export const AddNoteScreen = ({route}: any) => {
   const [title, setTitle] = useState(task ? task?.title : '');
   const [content, setContent] = useState(task ? task.content : '');
   const dispatch = useDispatch<AppDispatch>();
+  const [errorMsg, seterrorMsg] = useState<string>('');
 
   const handleAddOrEditTask = () => {
     if (task) {
       dispatch(editNote({id: task.id, title, content}));
       navigation.navigate('Root');
     } else {
+      if (!title) {
+        seterrorMsg("title can't be empty");
+        return;
+      }
+      if (!content) {
+        seterrorMsg("content can't be empty");
+        return;
+      }
       dispatch(addNote({title, content}));
       navigation.navigate('Root');
     }
@@ -39,6 +55,8 @@ export const AddNoteScreen = ({route}: any) => {
         onChangeText={setContent}
         placeholder="Note Content"
       />
+
+      {errorMsg ? <Text style={styles.errorMsg}>{errorMsg}</Text> : null}
       <Button title={task ? 'Edit' : 'Add'} onPress={handleAddOrEditTask} />
     </View>
   );
@@ -62,5 +80,9 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
     color: 'blue',
     textAlign: 'center',
+  },
+  errorMsg: {
+    color: 'red',
+    marginVertical: 10,
   },
 });
