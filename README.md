@@ -1,4 +1,4 @@
-# Sara
+# 23Todo
 
 Project name is `23Todo` which `is an note management react native application`.
 
